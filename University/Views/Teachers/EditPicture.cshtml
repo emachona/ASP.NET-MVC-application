@@ -1,0 +1,71 @@
+﻿@model University.ViewModels.Edit_TeacherPicture
+
+@{
+    ViewData["Title"] = "EditPicture";
+}
+
+
+<h3 style="color:darkblue">Edit Teacher's Picture</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditPicture" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Teacher.TeacherID" />
+            <div class="form-group" >
+                <label asp-for="Teacher.FirstName" class="control-label"></label>
+                <input asp-for="Teacher.FirstName" class="form-control" readonly="@(true)"/>
+                <span asp-validation-for="Teacher.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group" >
+                <label asp-for="Teacher.LastName" class="control-label"></label>
+                <input asp-for="Teacher.LastName" class="form-control" readonly="@(true)"/>
+                <span asp-validation-for="Teacher.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="display:none">
+                <label asp-for="Teacher.Degree" class="control-label"></label>
+                <input asp-for="Teacher.Degree" class="form-control" />
+                <span asp-validation-for="Teacher.Degree" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="display:none">
+                <label asp-for="Teacher.AcademicRank" class="control-label"></label>
+                <input asp-for="Teacher.AcademicRank" class="form-control" />
+                <span asp-validation-for="Teacher.AcademicRank" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="display:none">
+                <label asp-for="Teacher.OfficeNumber" class="control-label"></label>
+                <input asp-for="Teacher.OfficeNumber" class="form-control" />
+                <span asp-validation-for="Teacher.OfficeNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="display:none">
+                <label asp-for="Teacher.HireDate" class="control-label"></label>
+                <input asp-for="Teacher.HireDate" class="form-control" />
+                <span asp-validation-for="Teacher.HireDate" class="text-danger"></span>
+            </div>
+             <div class="form-group" style="display:none">
+                <label asp-for="Teacher.ProfilePicture" class="control-label"></label>
+                <input asp-for="Desc" class="form-control" readonly="@(true)">
+                <span asp-validation-for="Teacher.ProfilePicture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfileImage" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="ProfileImage" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+     <a asp-action="Details" asp-route-id="@Model?.Teacher.TeacherID">Back to Details</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

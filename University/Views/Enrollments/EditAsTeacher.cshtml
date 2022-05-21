@@ -1,0 +1,89 @@
+﻿@model University.Models.Enrollment
+@{
+    ViewData["Title"] = "EditAsTeacher";
+}
+
+<h3 style="color:darkblue">Edit Enrollment</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditAsTeacher" asp-route-teacher="@ViewBag.teacher">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EnrollmentID" />
+           <div class="form-group">
+                <label asp-for="CourseID" class="control-label"></label>
+                <select asp-for="CourseID" class="form-control" asp-items="ViewBag.CourseID" readonly="@(true)"></select>
+                <span asp-validation-for="CourseID" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="StudentID" class="control-label"></label>
+                <select asp-for="StudentID" class="form-control" asp-items="ViewBag.StudentID" readonly="@(true)"></select>
+                <span asp-validation-for="StudentID" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Semester" class="control-label"></label>
+                <input asp-for="Semester" class="form-control" readonly="@(true)"/>
+                <span asp-validation-for="Semester" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" class="form-control" readonly="@(true)"/>
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Grade" class="control-label"></label>
+                <input asp-for="Grade" class="form-control" />
+                <span asp-validation-for="Grade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeminalUrl" class="control-label"></label>
+                <input asp-for="SeminalUrl" class="form-control" readonly="@(true)"/>
+                <span asp-validation-for="SeminalUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectUrl" class="control-label"></label>
+                <input asp-for="ProjectUrl" class="form-control" readonly="@(true)"/>
+                <span asp-validation-for="ProjectUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExamPoints" class="control-label"></label>
+                <input asp-for="ExamPoints" class="form-control" />
+                <span asp-validation-for="ExamPoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeminalPoints" class="control-label"></label>
+                <input asp-for="SeminalPoints" class="form-control" />
+                <span asp-validation-for="SeminalPoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectPoints" class="control-label"></label>
+                <input asp-for="ProjectPoints" class="form-control" />
+                <span asp-validation-for="ProjectPoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalPoints" class="control-label"></label>
+                <input asp-for="AdditionalPoints" class="form-control" />
+                <span asp-validation-for="AdditionalPoints" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FinishDate" class="control-label"></label>
+                <input asp-for="FinishDate" class="form-control" />
+                <span asp-validation-for="FinishDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

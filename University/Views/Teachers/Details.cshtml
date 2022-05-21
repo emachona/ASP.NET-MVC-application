@@ -1,0 +1,66 @@
+﻿@model University.ViewModels.Edit_TeacherPicture
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h3 style="color:darkblue">Details for Teacher</h3>
+<hr/>
+
+<div>
+    <h4>Teacher</h4>
+    <hr />
+     <span style="float:right">
+    <dl class="row">
+       @* <dt class = "col-sm-2">
+           Profile picture:
+        </dt>*@
+        <dd class = "col-sm-10">
+            <img src="~/images/@Model.Teacher.ProfilePicture" height="220" width="150" style="margin-right:1cm;" asp-append-version="true" />
+        </dd>
+     </dl> 
+     </span>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Teacher.FirstName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Teacher.FirstName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Teacher.LastName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Teacher.LastName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Teacher.Degree)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Teacher.Degree)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Teacher.AcademicRank)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Teacher.AcademicRank)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Teacher.OfficeNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Teacher.OfficeNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Teacher.HireDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Teacher.HireDate)
+        </dd>
+    </dl>
+</div>
+<div>
+     <a asp-action="EditPicture" asp-route-id="@Model?.Teacher.TeacherID">Edit picture</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.Teacher.TeacherID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

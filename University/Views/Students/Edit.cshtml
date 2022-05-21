@@ -1,0 +1,88 @@
+﻿@model University.ViewModels.Enroll_Courses_forStudents
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h3 style="color:darkblue">Edit Student</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Student.ID" />
+            <div class="form-group">
+                <label asp-for="Student.StudentID" class="control-label"></label>
+                <input asp-for="Student.StudentID" class="form-control" />
+                <span asp-validation-for="Student.StudentID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.FirstName" class="control-label"></label>
+                <input asp-for="Student.FirstName" class="form-control" />
+                <span asp-validation-for="Student.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.LastName" class="control-label"></label>
+                <input asp-for="Student.LastName" class="form-control" />
+                <span asp-validation-for="Student.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.EnrollmentDate" class="control-label"></label>
+                <input asp-for="Student.EnrollmentDate" class="form-control" />
+                <span asp-validation-for="Student.EnrollmentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.AcquiredCredits" class="control-label"></label>
+                <input asp-for="Student.AcquiredCredits" class="form-control" />
+                <span asp-validation-for="Student.AcquiredCredits" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.CurrentSemester" class="control-label"></label>
+                <input asp-for="Student.CurrentSemester" class="form-control" />
+                <span asp-validation-for="Student.CurrentSemester" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Student.EducationLevel" class="control-label"></label>
+                <input asp-for="Student.EducationLevel" class="form-control" />
+                <span asp-validation-for="Student.EducationLevel" class="text-danger"></span>
+            </div>
+
+            @*
+             <div class="form-group" style="display:none">
+                <label asp-for="Student.Picture" class="control-label"></label>
+                <input asp-for="Student.Picture" class="form-control" readonly="@(true)">
+                <span asp-validation-for="Student.Picture" class="text-danger"></span>
+            </div>*@
+
+            <div class="form-group">
+                <label asp-for="year" class="control-label"></label>
+                <input asp-for="year" class="form-control" />
+                <span asp-validation-for="year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Enrolled courses</label>
+                <select asp-for="selectedCourses" class ="form-control" asp-items="Model.EnrolledCourses">
+                </select>
+                <span asp-validation-for="selectedCourses" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+ <script>
+        $(document).ready(function () {
+            $("#selectedCourses").select2();
+        });
+    </script>
+}
