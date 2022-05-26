@@ -26,33 +26,22 @@ namespace University.Models
                 //Add default User to Role Admin
                 if (chkUser.Succeeded) { var result1 = await UserManager.AddToRoleAsync(User, "Admin"); }
             }
-            //Add Teacher Role
-            roleCheck = await RoleManager.RoleExistsAsync("Teacher");
-            if (!roleCheck) { roleResult = await RoleManager.CreateAsync(new IdentityRole("Teacher")); }
-            user = await UserManager.FindByEmailAsync("teacher@uni.com");
-            if (user == null)
+            // creating Teacher role     
+            var x = await RoleManager.RoleExistsAsync("Teacher");
+            if (!x)
             {
-                var User = new UniversityUser();
-                User.Email = "teacher@uni.com";
-                User.UserName = "teacher@uni.com";
-                string userPWD = "Teacher123";
-                IdentityResult chkUser = await UserManager.CreateAsync(User, userPWD);
-                //Add default User to Role Teacher
-                if (chkUser.Succeeded) { var result1 = await UserManager.AddToRoleAsync(User, "Teacher"); }
+                var role = new IdentityRole();
+                role.Name = "Teacher";
+                await RoleManager.CreateAsync(role);
             }
-            //Add Student Role
-            roleCheck = await RoleManager.RoleExistsAsync("Student");
-            if (!roleCheck) { roleResult = await RoleManager.CreateAsync(new IdentityRole("Student")); }
-            user = await UserManager.FindByEmailAsync("student@uni.com");
-            if (user == null)
+
+            // creating Student role     
+            x = await RoleManager.RoleExistsAsync("Student");
+            if (!x)
             {
-                var User = new UniversityUser();
-                User.Email = "student@uni.com";
-                User.UserName = "student@uni.com";
-                string userPWD = "Student123";
-                IdentityResult chkUser = await UserManager.CreateAsync(User, userPWD);
-                //Add default User to Role Student
-                if (chkUser.Succeeded) { var result1 = await UserManager.AddToRoleAsync(User, "Student"); }
+                var role = new IdentityRole();
+                role.Name = "Student";
+                await RoleManager.CreateAsync(role);
             }
         }
 
@@ -72,11 +61,13 @@ namespace University.Models
                 }
 
                 context.Teachers.AddRange(
-                    new Teacher { /*Id = 1, */ FirstName = "Irina", LastName = "Ralevska",
+                    new Teacher { /*TeacherID = 1, */ FirstName = "Irina", LastName = "Ralevska",
                         Degree = "Dr", AcademicRank = "Dr", OfficeNumber = "4", HireDate = DateTime.Parse("2012-5-14") },
-                    new Teacher { /*Id = 2, */ FirstName = "Vladimir", LastName = "Dukovski", 
+                    new Teacher{ /*TeacherID = 2, */
+                        FirstName = "Vladimir", LastName = "Dukovski", 
                         Degree = "Dr", AcademicRank = "Dr", OfficeNumber = "12", HireDate = DateTime.Parse("2015-1-26") },
-                    new Teacher { /*Id = 3, */ FirstName = "Ivana", LastName = "Tanevska",
+                    new Teacher{ /*TeacherID = 3, */
+                        FirstName = "Ivana", LastName = "Tanevska",
                         Degree = "Dr", AcademicRank = "Dr", OfficeNumber = "2", HireDate = DateTime.Parse("2018-2-2") }
                 );
                 context.SaveChanges();

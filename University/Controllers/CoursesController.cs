@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace University.Controllers
         }
 
         // GET: Courses
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Index(string searchTitle, int searchSem, string searchProg)
         {
             IQueryable<Course> courses = _context.Courses.AsQueryable();
@@ -78,6 +80,7 @@ namespace University.Controllers
 
 
         // GET: Courses/Details/5
+        [Authorize(Roles = "Admin, Teacher")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -98,6 +101,7 @@ namespace University.Controllers
         }
 
         // GET: Courses/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["FirstTeacherID"] = new SelectList(_context.Teachers, "TeacherID", "FirstName");
@@ -108,6 +112,7 @@ namespace University.Controllers
         // POST: Courses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CourseID,Title,Credits,Semester,Programme,EducationLevel,FirstTeacherID,SecondTeacherID,Enrollments")] Course course)
@@ -124,6 +129,7 @@ namespace University.Controllers
         }
 
         // GET: Courses/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -158,6 +164,7 @@ namespace University.Controllers
         // POST: Courses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Enroll_Students_VM viewmodel)
@@ -222,6 +229,7 @@ namespace University.Controllers
         }
 
         // GET: Courses/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -242,6 +250,7 @@ namespace University.Controllers
         }
 
         // POST: Courses/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -258,9 +267,14 @@ namespace University.Controllers
         }
 
         // GET: Courses/CoursesTeaching/5
-      //  [Authorize(Roles = "Admin,Teacher")]
-        public async Task<IActionResult> CoursesTeaching(int? id)
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> CoursesTeaching(int? id, string? userID)
         {
+            if (userID != null)
+            {
+                var tc = await _context.Teachers.FirstOrDefaultAsync(x => x.userId == userID);
+                id = tc.TeacherID;
+            }
             if (id == null)
             {
                 return NotFound();

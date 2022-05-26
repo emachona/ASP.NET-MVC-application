@@ -357,6 +357,9 @@ namespace University.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<string>("userId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ID");
 
                     b.ToTable("Student", (string)null);
@@ -396,6 +399,9 @@ namespace University.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TeacherID");

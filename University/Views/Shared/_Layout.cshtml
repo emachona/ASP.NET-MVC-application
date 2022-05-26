@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using University.Areas.Identity.Data
+@inject UserManager<UniversityUser> UserManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,22 +26,50 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Courses" asp-action="Index">Courses</a>
+                            }
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Teacher"))
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Courses" asp-action="CoursesTeaching" asp-route-userID=@UserManager.GetUserId(User)>Courses</a>
+                            }
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Student"))
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Enrollments" asp-action="StudentCourses" asp-route-userID=@UserManager.GetUserId(User)>Courses</a>
+                            }
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Index">Students</a>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Index">Students</a>
+                            }
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Teacher"))
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Teachers" asp-action="Details" asp-route-userID=@UserManager.GetUserId(User)>Details</a>
+                            }
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Student"))
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Details" asp-route-userID=@UserManager.GetUserId(User)>Details</a>
+                            }
                         </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Courses" asp-action="Index">Courses</a>
+                        <li class="nav-item">
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Teachers" asp-action="Index">Teachers</a>
+                            }
                         </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Teachers" asp-action="Index">Teachers</a>
-                         </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Enrollments" asp-action="Index">Enrollments</a>
+                        <li class="nav-item">
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Enrollments" asp-action="Index">Enrollments</a>
+                            }
                         </li>
-                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Enrollments" asp-action="Index1" style="color:gray">Enroll</a>
+                        <li class="nav-item">
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <a class="nav-link text-dark" id="register" asp-area="" asp-controller="Home" asp-action="AllUsers">Users</a>
+                            }
                         </li>
                     </ul> 
                 <partial name="_LoginPartial.cshtml"/>     

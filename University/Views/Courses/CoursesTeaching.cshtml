@@ -1,4 +1,7 @@
-﻿@model University.ViewModels.FilterCourses_VM
+﻿@using Microsoft.AspNetCore.Identity
+@using University.Areas.Identity.Data
+@model University.ViewModels.FilterCourses_VM
+@inject UserManager<UniversityUser> UserManager
 
 @{
      ViewData["Title"] = "CoursesTeaching";
@@ -7,7 +10,7 @@
 <h3 style="color:darkblue">Courses held by @ViewBag.Message </h3>
 <hr/>
 
-<form asp-controller="Courses" asp-action="CoursesTeaching" method="get">
+<form asp-controller="Courses" asp-action="CoursesTeaching"  asp-route-userID=@UserManager.GetUserId(User)>
     <p>
         Title: <input type="text" asp-for="searchTitle" />
         Programme:
@@ -72,7 +75,7 @@
                 <td>  
                     <a asp-action="Edit" asp-route-id="@item.CourseID">Edit</a> |   @*error*@
                     <a asp-action="Details" asp-route-id="@item.CourseID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.CourseID">Delete</a>
+                    @*<a asp-action="Delete" asp-route-id="@item.CourseID">Delete</a>*@
                 </td>
             </tr>
         }

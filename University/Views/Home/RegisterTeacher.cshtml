@@ -1,0 +1,29 @@
+﻿@model University.Models.Teacher
+
+@{
+    ViewData["Title"] = "RegisterTeacher";
+}
+
+<h4>Select a Teacher  </h4>
+<h5>>User : @ViewBag.User </h5>
+<br/>
+<br/>
+<div class="row">
+    <div >
+        <form asp-controller="Home" asp-action="RegisterTeacher" asp-route-userID="@ViewBag.User">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group d-flex justify-content-center mx-5">
+                <select asp-for="TeacherID" class="form-select from-select-lg mb-3" asp-items="ViewBag.TeacherId">
+                    <option>Select teacher</option>
+                </select>
+                <span asp-validation-for="TeacherID" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex justify-content-center">
+                <input type="submit" value="Save" class="btn btn-secondary px-5" />
+            </div>
+        </form>
+     </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

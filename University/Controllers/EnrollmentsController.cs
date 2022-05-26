@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,7 @@ namespace University.Controllers
         }
 
         // GET: Enrollments
-        //[Authorize(Roles="Admin")]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Index()
         {
             var universityContext = _context.Enrollments.Include(e => e.Student).Include(e => e.Course).ThenInclude(e=>e.FirstTeacher);
@@ -31,7 +32,7 @@ namespace University.Controllers
         }
 
         //Create
-        //[Authorize(Roles="Admin")]
+        [Authorize(Roles="Admin")]
         public IActionResult Index1()
         {
             ViewData["CourseID"] = new SelectList(_context.Courses, "CourseID", "CourseID");
@@ -40,7 +41,7 @@ namespace University.Controllers
             return View();
         }
 
-        //[Authorize(Roles="Admin")]
+        [Authorize(Roles="Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index1([Bind("EnrollmentID,CourseID,StudentID,Semester,Year")] Enrollment enrollment)
@@ -58,7 +59,7 @@ namespace University.Controllers
         }
 
         // GET: Enrollments/Details/5
-        //[Authorize(Roles="Admin,Student,Teacher")]
+        [Authorize(Roles="Admin,Student,Teacher")]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -107,7 +108,7 @@ namespace University.Controllers
         }
 
         // GET: Enrollments/Edit/5
-        //[Authorize(Roles="Admin")]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -128,7 +129,7 @@ namespace University.Controllers
         // POST: Enrollments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[Authorize(Roles="Admin")]
+        [Authorize(Roles="Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("EnrollmentID,CourseID,StudentID,Semester,Year,Grade,SeminalUrl,ProjectUrl,ExamPoints,SeminalPoints,ProjectPoints,AdditionalPoints,FinishDate")] Enrollment enrollment)
@@ -164,7 +165,7 @@ namespace University.Controllers
         }
 
         // GET: Enrollments/Delete/5
-        //[Authorize(Roles="Admin")]
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -185,7 +186,7 @@ namespace University.Controllers
         }
 
         // POST: Enrollments/Delete/5
-        //[Authorize(Roles="Admin")]
+        [Authorize(Roles="Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
@@ -201,7 +202,7 @@ namespace University.Controllers
             return _context.Enrollments.Any(e => e.EnrollmentID == id);
         }
 
-        //[Authorize(Roles="Admin,Teacher")]
+        [Authorize(Roles="Admin,Teacher")]
         public async Task<IActionResult> ListEnrolledStudents(int? id, string teacher, int year)
         {
             if (id == null)
@@ -246,7 +247,7 @@ namespace University.Controllers
         }
 
         // GET: Enrollments/EditAsTeacher/5
-       // [Authorize(Roles = "Teacher")]
+       [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> EditAsTeacher(long? id, string teacher)
         {
             if (id == null)
@@ -266,7 +267,7 @@ namespace University.Controllers
         }
 
 
-        // [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Teacher")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAsTeacher(long id, string teacher, [Bind("EnrollmentID,CourseID,StudentID,Semester,Year,Grade,SeminalUrl,ProjectUrl,ExamPoints,SeminalPoints,ProjectPoints,AdditionalPoints,FinishDate")] Enrollment enrollment)
@@ -302,9 +303,14 @@ namespace University.Controllers
         }
 
         // GET: Enrollments/StudentCourses/5
-       // [Authorize(Roles = "Admin,Student")]
-        public async Task<IActionResult> StudentCourses(int? id)
+       [Authorize(Roles = "Admin,Student")]
+        public async Task<IActionResult> StudentCourses(int? id, string? userID)
         {
+            if (userID != null)
+            {
+                var stu = await _context.Students.FirstOrDefaultAsync(x => x.userId == userID);
+                id = (int?)stu.ID;
+            }
             if (id == null)
             {
                 return NotFound();
@@ -328,7 +334,7 @@ namespace University.Controllers
             return View(await enrollment.ToListAsync());
         }
 
-        //[Authorize(Roles="Student")]
+        [Authorize(Roles="Student")]
         public async Task<IActionResult> EditAsStudent(long? id)
         {
             if (id == null)
@@ -355,7 +361,7 @@ namespace University.Controllers
         }
 
 
-        //[Authtorize(Roles="Student")]
+        [Authorize(Roles="Student")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAsStudent(long id, EditAsStudent_VM viewmodel)

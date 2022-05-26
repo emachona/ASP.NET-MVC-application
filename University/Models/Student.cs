@@ -46,5 +46,7 @@ namespace University.Models
         public ICollection<Enrollment>? Enrollments { get; set; }
 
         public string? Picture { get; set; }
+
+        public string? userId { get; set; }
     }
 }

@@ -12,9 +12,6 @@
     <hr />
     <span style="float:right">
     <dl class="row">
-       @* <dt class = "col-sm-2">
-           Profile picture:
-        </dt>*@
         <dd class = "col-sm-10">
             <img src="~/images/@Model.Student.Picture" height="220" width="150" style="margin-right:1cm;" asp-append-version="true" />
         </dd>
@@ -66,7 +63,15 @@
     </dl>
 </div>
 <div>
-    <a asp-action="EditPicture" asp-route-id="@Model?.Student.ID">Edit picture</a> |
-    <a asp-action="Edit" asp-route-id="@Model?.Student.ID">Edit</a> |
+    @if(User.Identity.IsAuthenticated && User.IsInRole("Admin")){
+    <a asp-action="EditPicture" asp-route-id="@Model?.Student.ID">Edit picture</a> 
+    <span>|</span>
+    <a asp-action="Edit" asp-route-id="@Model?.Student.ID">Edit</a> 
+    <span>|</span>
     <a asp-action="Index">Back to List</a>
+    }
+     @if (User.Identity.IsAuthenticated && User.IsInRole("Student"))
+    {
+        <a asp-controller="Home" asp-action="Index">Back</a>
+    }
 </div>

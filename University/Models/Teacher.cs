@@ -34,7 +34,9 @@ namespace University.Models
         public DateTime? HireDate { get; set; }
 
         public string? ProfilePicture { get; set; }
-       
+
+        public string? userId { get; set; }
+
         [Display(Name = "Full Name")]
         public string FullName
         {

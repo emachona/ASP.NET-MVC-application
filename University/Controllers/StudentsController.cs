@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace University.Controllers
         }
 
         // GET: Students
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult>Index(string searchIme, string searchStudentId)
         {
             IEnumerable<Student> students = _context.Students.AsEnumerable();
@@ -45,8 +47,14 @@ namespace University.Controllers
         }
 
         // GET: Students/Details/5
-        public async Task<IActionResult> Details(long? id)
+        [Authorize(Roles = "Admin, Student")]
+        public async Task<IActionResult> Details(long? id, string? userID)
         {
+            if (userID != null)
+            {
+                var st = await _context.Students.FirstOrDefaultAsync(x => x.userId == userID);
+                id = st.ID;
+            }
             if (id == null)
             {
                 return NotFound();
@@ -68,6 +76,7 @@ namespace University.Controllers
             return View(viewmodel);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditPicture(long? id)
         {
             if (id == null)
@@ -115,6 +124,7 @@ namespace University.Controllers
             return uniqueFileName;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPicture(long id, Edit_StudentPicture viewmodel)
@@ -158,6 +168,7 @@ namespace University.Controllers
         }
 
         // GET: Students/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -166,6 +177,7 @@ namespace University.Controllers
         // POST: Students/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,StudentID,FirstName,LastName,EnrollmentDate,AcquiredCredits,CurrentSemester,EducationLevel,Enrollments,Picture")] Student student)
@@ -180,6 +192,7 @@ namespace University.Controllers
         }
 
         // GET: Students/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -210,6 +223,7 @@ namespace University.Controllers
         // POST: Students/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, Enroll_Courses_forStudents viewmodel)
@@ -266,6 +280,7 @@ namespace University.Controllers
         }
 
         // GET: Students/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -284,6 +299,7 @@ namespace University.Controllers
         }
 
         // POST: Students/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
@@ -300,6 +316,7 @@ namespace University.Controllers
         }
 
         // GET: Students/StudentsEnrolled/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> StudentsEnrolled(int? id, string? fullName, string? studentId)
         {
             if (id == null)

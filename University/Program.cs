@@ -18,7 +18,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
 builder.Services.AddRazorPages();
-builder.Services.AddIdentity<UniversityUser, IdentityRole>().AddEntityFrameworkStores<UniversityContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<UniversityUser, IdentityRole>().AddEntityFrameworkStores<UniversityContext>().AddDefaultTokenProviders().AddDefaultUI();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews()

@@ -3,6 +3,24 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+     @if (User.Identity.IsAuthenticated && User.IsInRole("Teacher"))
+    {
+        <h1 class="display-4">Teacher Profile</h1>
+    }
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Student"))
+    {
+        <h1 class="display-4">Student Profile</h1>
+    }
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        <h1 class="display-4">Admin Profile</h1>
+    }
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <h1 class="display-4">University webpage</h1>
+        <div> 
+            <img src="~/images/uni-pic.PNG"  class="rounded-circle"height="700" width="700" asp-append-version="true" />  
+        </div>
+
+    }
 </div>
